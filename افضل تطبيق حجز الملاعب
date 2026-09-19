@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لوحة تحكم المدير - ملاعب مصر</title>
+    <style>
+        body {
+            background-color: #111111;
+            color: #ffffff;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+        }
+        h1 {
+            color: #d4af37;
+            font-size: 26px;
+            margin-bottom: 5px;
+        }
+        .manager-subtitle {
+            color: #17a2b8;
+            font-size: 15px;
+            margin-bottom: 25px;
+            font-weight: bold;
+        }
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+            text-align: right;
+        }
+        .booking-card {
+            background: #1a1a1a;
+            border: 1px solid #d4af37;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 12px;
+            font-size: 14px;
+            line-height: 1.6;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+        }
+        .clear-btn {
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 15px;
+            font-weight: bold;
+            width: 100%;
+            margin-top: 20px;
+        }
+        .clear-btn:hover {
+            background-color: #c82333;
+        }
+        .no-data {
+            color: #aaa;
+            text-align: center;
+            padding: 40px;
+            background: #1a1a1a;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>لوحة تحكم المدير 📋</h1>
+    <div class="manager-subtitle">المسؤول: كابتن محمد السيد عبد الحميد</div>
+
+    <div class="container" id="adminBookingsList">
+        <!-- سيتم عرض الحجوزات هنا ديناميكياً -->
+    </div>
+
+    <div style="max-width: 500px; margin: 0 auto;">
+        <button class="clear-btn" onclick="clearAllBookings()">🗑️ مسح جميع الحجوزات وساعات الملاعب</button>
+    </div>
+
+    <script>
+        function loadAdminDashboard() {
+            const masterListKey = 'all_master_bookings';
+            let masterBookings = JSON.parse(localStorage.getItem(masterListKey) || '[]');
+            const container = document.getElementById('adminBookingsList');
+
+            if (masterBookings.length === 0) {
+                container.innerHTML = '<div class="no-data">لا توجد أي حجوزات مسجلة حتى الآن.</div>';
+            } else {
+                let html = '';
+                masterBookings.forEach((b, index) => {
+                    html += `
+                        <div class="booking-card">
+                            <span style="color: #d4af37; font-weight: bold; font-size: 16px;">#${index + 1} - ${b.stadium}</span><br>
+                            👤 الحاجز: <b style="color:#fff;">${b.name}</b><br>
+                            📱 الموبايل: <b style="color:#17a2b8;">${b.phone}</b><br>
+                            📅 الميعاد: <b style="color:#28a745;">${b.day}</b><br>
+                            🕒 التوقيت: ${b.time}<br>
+                            💰 السعر المطلوب: <b style="color:#ffc107;">${b.price} جنيه (كاش)</b><br>
+                            🔑 كود التحقق: <span style="color: #28a745; font-weight:bold; font-size:16px; letter-spacing:1px;">${b.code}</span>
+                        </div>
+                    `;
+                });
+                container.innerHTML = html;
+            }
+        }
+
+        function clearAllBookings() {
+            if (confirm('هل أنت متأكد من مسح جميع الحجوزات وساعات الملاعب المسجلة نهائياً؟')) {
+                Object.keys(localStorage).forEach(key => {
+                    if (key.startsWith('booked_hours_') || key === 'all_master_bookings') {
+                        localStorage.removeItem(key);
+                    }
+                });
+                alert('تم مسح جميع الحجوزات بنجاح!');
+                loadAdminDashboard();
+            }
+        }
+
+        window.onload = loadAdminDashboard;
+    </script>
+</body>
+</html>
