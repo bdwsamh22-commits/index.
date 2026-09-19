@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>حجز ملاعب مصر</title>
+    <style>
+        body {
+            background-color: #111111;
+            color: #ffffff;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+        }
+        h1 {
+            color: #d4af37;
+            font-size: 28px;
+            margin-bottom: 5px;
+        }
+        p {
+            color: #cccccc;
+            font-size: 14px;
+            margin-bottom: 25px;
+        }
+        .stadium-card {
+            background-color: #1a1a1a;
+            border: 1px solid #d4af37;
+            border-radius: 12px;
+            padding: 20px;
+            margin: 15px auto;
+            max-width: 400px;
+            text-align: right;
+            box-shadow: 0 4px 12px rgba(212, 175, 55, 0.15);
+        }
+        .stadium-title {
+            color: #d4af37;
+            font-size: 22px;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+        .stadium-info {
+            color: #e0e0e0;
+            font-size: 14px;
+            margin: 12px 0;
+        }
+        .form-input, .form-select {
+            width: 100%;
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid #d4af37;
+            background-color: #111111;
+            color: #ffffff;
+            font-size: 14px;
+            margin-top: 5px;
+            outline: none;
+            box-sizing: border-box;
+            direction: rtl;
+        }
+        .form-select option {
+            direction: rtl;
+            text-align: right;
+            padding: 5px;
+        }
+        .form-select option:disabled {
+            color: #ff4d4d;
+            background-color: #1a0000;
+        }
+        .price-tag {
+            color: #28a745;
+            font-weight: bold;
+            font-size: 15px;
+            background: #111;
+            padding: 8px;
+            border-radius: 6px;
+            margin-top: 8px;
+            border: 1px dashed #28a745;
+            text-align: center;
+        }
+        .book-btn {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 12px;
+            width: 100%;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 15px;
+            transition: background 0.2s;
+        }
+        .book-btn:hover {
+            background-color: #218838;
+        }
+        .modal {
+            display: none; 
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.85);
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-content {
+            background-color: #1a1a1a;
+            border: 2px solid #d4af37;
+            padding: 20px;
+            border-radius: 15px;
+            width: 85%;
+            max-width: 320px;
+            text-align: center;
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.3);
+        }
+        .modal-content h2 {
+            color: #d4af37;
+            margin-top: 0;
+            font-size: 20px;
+        }
+        .booking-details-box {
+            background: #111;
+            padding: 10px;
+            border-radius: 8px;
+            margin: 10px 0;
+            border: 1px solid #444;
+            font-size: 13px;
+            color: #ffc107;
+            line-height: 1.6;
+            text-align: right;
+        }
+        .booking-code {
+            font-size: 22px;
+            font-weight: bold;
+            color: #28a745;
+            background: #111;
+            padding: 10px;
+            border-radius: 8px;
+            margin: 8px 0;
+            letter-spacing: 1px;
+            border: 1px dashed #d4af37;
+            direction: ltr;
+        }
+        .screenshot-note {
+            color: #ffc107;
+            font-size: 13px;
+            font-weight: bold;
+            margin: 12px 0;
+            line-height: 1.5;
+        }
+        .manager-name {
+            color: #17a2b8;
+            font-size: 12px;
+            margin-top: 5px;
+        }
+        .close-modal {
+            background-color: #d4af37;
+            color: #111;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 14px;
+            width: 100%;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>حجز ملاعب مصر 🇪🇬</h1>
+    <p>سجل بياناتك واحجز حصتك الرياضية بكل سهولة</p>
+
+    <!-- الملعب الأول (خماسي) -->
+    <div class="stadium-card" data-price="300">
+        <div class="stadium-title">ملعب النخبة الدولي</div>
+        <div class="stadium-info">⚽ خماسي - نجيل صناعي (سعر الساعة: 300 ج)</div>
+        
+        <div class="stadium-info">
+            👤 اسم الحاجز:
+            <input type="text" class="form-input" id="name-ELITE" placeholder="اكتب اسمك الكامل">
+        </div>
+
+        <div class="stadium-info">
+            📱 رقم الموبايل:
+            <input type="tel" class="form-input" id="phone-ELITE" placeholder="01xxxxxxxx0">
+        </div>
+
+        <div class="stadium-info">
+            📅 اختر اليوم:
+            <select class="form-select" id="day-ELITE" onchange="onDayChange('ELITE')"></select>
+        </div>
+
+        <div class="stadium-info">
+            ⏱️ من الساعة (البداية):
+            <select class="form-select time-from" id="from-ELITE" onchange="updateTimeOptions('ELITE')"></select>
+        </div>
+
+        <div class="stadium-info">
+            ⏱️ إلى الساعة (النهاية):
+            <select class="form-select time-to" id="to-ELITE" onchange="calculatePrice('ELITE')"></select>
+        </div>
+
+        <div class="price-tag" id="price-ELITE">الإجمالي المطلوب: 300 جنيه</div>
+
+        <div class="stadium-info">
+            💳 طريقة الدفع:
+            <select class="form-select">
+                <option value="cash">الدفع كاش عند الوصول للملعب</option>
+            </select>
+        </div>
+
+        <button class="book-btn" onclick="bookStadium('ELITE', 'ملعب النخبة الدولي')">تأكيد حجز النخبة</button>
+    </div>
+
+    <!-- الملعب الثاني (سداسي) -->
+    <div class="stadium-card" data-price="400">
+        <div class="stadium-title">ملعب الأسطورة الملكي</div>
+        <div class="stadium-info">⚽ سداسي - نجيل طبيعي (سعر الساعة: 400 ج)</div>
+        
+        <div class="stadium-info">
+            👤 اسم الحاجز:
+            <input type="text" class="form-input" id="name-ROYAL" placeholder="اكتب اسمك الكامل">
+        </div>
+
+        <div class="stadium-info">
+            📱 رقم الموبايل:
+            <input type="tel" class="form-input" id="phone-ROYAL" placeholder="01xxxxxxxx0">
+        </div>
+
+        <div class="stadium-info">
+            📅 اختر اليوم:
+            <select class="form-select" id="day-ROYAL" onchange="onDayChange('ROYAL')"></select>
+        </div>
+
+        <div class="stadium-info">
+            ⏱️ من الساعة (البداية):
+            <select class="form-select time-from" id="from-ROYAL" onchange="updateTimeOptions('ROYAL')"></select>
+        </div>
+
+        <div class="stadium-info">
+            ⏱️ إلى الساعة (النهاية):
+            <select class="form-select time-to" id="to-ROYAL" onchange="calculatePrice('ROYAL')"></select>
+        </div>
+
+        <div class="price-tag" id="price-ROYAL">الإجمالي المطلوب: 400 جنيه</div>
+
+        <div class="stadium-info">
+            💳 طريقة الدفع:
+            <select class="form-select">
+                <option value="cash">الدفع كاش عند الوصول للملعب</option>
+            </select>
+        </div>
+
+        <button class="book-btn" onclick="bookStadium('ROYAL', 'ملعب الأسطورة الملكي')">تأكيد حجز الأسطورة</button>
+    </div>
+
+    <!-- نافذة تأكيد الحجز المنبثقة -->
+    <div id="codeModal" class="modal">
+        <div class="modal-content">
+            <h2>تم الحجز بنجاح! 🎉</h2>
+            <div class="booking-details-box" id="modalDetails"></div>
+            <p style="color: #ccc; font-size: 11px; margin: 2px 0;">كود التحقق:</p>
+            <div class="booking-code" id="codeDisplay">#BK-0000</div>
+            <div class="screenshot-note">
+                ⚠️ برجاء أخذ كود الحجز "سكرين شوت" وإظهاره لمسؤول الملعب عند الدخول.
+            </div>
+            <div class="manager-name">إدارة الكابتن: محمد السيد عبد الحميد</div>
+            <button class="close-modal" onclick="closeBookingModal()">حسناً، تم الحفظ</button>
+        </div>
+    </div>
+
+    <script>
+        const allHours = [
+            {val: 1, label: "01:00 ظهراً"}, {val: 2, label: "02:00 ظهراً"},
+            {val: 3, label: "03:00 عصراً"}, {val: 4, label: "04:00 عصراً"},
+            {val: 5, label: "05:00 مساءً"}, {val: 6, label: "06:00 مساءً"},
+            {val: 7, label: "07:00 مساءً"}, {val: 8, label: "08:00 مساءً"},
+            {val: 9, label: "09:00 مساءً"}, {val: 10, label: "10:00 مساءً"},
+            {val: 11, label: "11:00 مساءً"}, {val: 12, label: "12:00 منتصف الليل"},
+            {val: 13, label: "01:00 صباحاً"}
+        ];
+
+        const dayNames = ["الأحد", "الإثنين", "الثلاثاء", "الأربعاء", "الخميس", "الجمعة", "السبت"];
+
+        function generateDays() {
+            let daysList = [];
+            let today = new Date();
+            for (let i = 0; i < 7; i++) {
+                let d = new Date(today);
+                d.setDate(today.getDate() + i);
+                let dayName = dayNames[d.getDay()];
+                let dd = String(d.getDate()).padStart(2, '0');
+                let mm = String(d.getMonth() + 1).padStart(2, '0');
+                let yyyy = d.getFullYear();
+                let dateStr = `${dd}/${mm}/${yyyy}`;
+                let valueKey = `${yyyy}-${mm}-${dd}`;
+                let displayText = i === 0 ? `النهارده (${dayName} ${dateStr})` : `${dayName} (${dateStr})`;
+                daysList.push({ value: valueKey, text: displayText });
+            }
+            return daysList;
+        }
+
+        function getLabel(val) {
+            const found = allHours.find(h => h.val == val);
+            return found ? found.label : "";
+        }
+
+        function populateDaysSelect(prefix) {
+            const daySelect = document.getElementById('day-' + prefix);
+            const days = generateDays();
+            daySelect.innerHTML = '';
+            days.forEach(day => {
+                const opt = document.createElement('option');
+                opt.value = day.value;
+                opt.text = day.text;
+                daySelect.appendChild(opt);
+            });
+        }
+
+        function onDayChange(prefix) {
+            initSystem(prefix);
+        }
+
+        function initSystem(prefix) {
+            const daySelect = document.getElementById('day-' + prefix);
+            const selectedDateKey = daySelect.value;
+            const fromSelect = document.getElementById('from-' + prefix);
+            const storageKey = 'booked_hours_' + prefix + '_' + selectedDateKey;
+            const bookedHours = JSON.parse(localStorage.getItem(storageKey) || '[]');
+
+            fromSelect.innerHTML = '';
+            allHours.forEach(h => {
+                const opt = document.createElement('option');
+                opt.value = h.val;
+                if (bookedHours.includes(h.val)) {
+                    opt.disabled = true;
+                    opt.text = h.label + " - [محجوز ❌]";
+                } else {
+                    opt.text = h.label;
+                }
+                fromSelect.appendChild(opt);
+            });
+
+            for (let opt of fromSelect.options) {
+                if (!opt.disabled) {
+                    fromSelect.value = opt.value;
+                    break;
+                }
+            }
+            updateTimeOptions(prefix);
+        }
+
+        function updateTimeOptions(prefix) {
+            const daySelect = document.getElementById('day-' + prefix);
+            const selectedDateKey = daySelect.value;
+            const fromSelect = document.getElementById('from-' + prefix);
+            const toSelect = document.getElementById('to-' + prefix);
+            const storageKey = 'booked_hours_' + prefix + '_' + selectedDateKey;
+            const bookedHours = JSON.parse(localStorage.getItem(storageKey) || '[]');
+            
+            const fromVal = parseInt(fromSelect.value);
+            toSelect.innerHTML = '';
+
+            allHours.forEach(h => {
+                if (h.val > fromVal) {
+                    const opt = document.createElement('option');
+                    opt.value = h.val;
+                    let hasBlockedAhead = false;
+                    for (let i = fromVal; i < h.val; i++) {
+                        if (bookedHours.includes(i)) {
+                            hasBlockedAhead = true;
+                            break;
+                        }
+                    }
+                    if (hasBlockedAhead) {
+                        opt.disabled = true;
+                        opt.text = h.label + " (تعارض ⚠️)";
+                    } else {
+                        opt.text = h.label;
+                    }
+                    toSelect.appendChild(opt);
+                }
+            });
+
+            for (let opt of toSelect.options) {
+                if (!opt.disabled) {
+                    toSelect.value = opt.value;
+                    break;
+                }
+            }
+            calculatePrice(prefix);
+        }
+
+        function calculatePrice(prefix) {
+            const card = document.querySelector(`#name-${prefix}`).closest('.stadium-card');
+            const pricePerHour = parseInt(card.getAttribute('data-price'));
+            const fromVal = parseInt(document.getElementById('from-' + prefix).value);
+            const toVal = parseInt(document.getElementById('to-' + prefix).value);
+            
+            if (fromVal && toVal && toVal > fromVal) {
+                const hoursCount = toVal - fromVal;
+                const totalPrice = hoursCount * pricePerHour;
+                document.getElementById('price-' + prefix).innerText = `الإجمالي المطلوب: ${totalPrice} جنيه (${hoursCount} ساعات)`;
+            }
+        }
+
+        window.onload = function() {
+            populateDaysSelect('ELITE');
+            populateDaysSelect('ROYAL');
+            initSystem('ELITE');
+            initSystem('ROYAL');
+        };
+
+        function bookStadium(prefix, stadiumName) {
+            const nameInput = document.getElementById('name-' + prefix);
+            const phoneInput = document.getElementById('phone-' + prefix);
+
+            if (!nameInput.value.trim() || !phoneInput.value.trim()) {
+                alert('الرجاء كتابة اسم الحاجز ورقم الموبايل أولاً!');
+                nameInput.focus();
+                return;
+            }
+
+            const daySelect = document.getElementById('day-' + prefix);
+            const selectedDateKey = daySelect.value;
+            const selectedDayText = daySelect.options[daySelect.selectedIndex].text;
+            const fromSelect = document.getElementById('from-' + prefix);
+            const toSelect = document.getElementById('to-' + prefix);
+            
+            const startHour = parseInt(fromSelect.value);
+            const endHour = parseInt(toSelect.value);
+            const storageKey = 'booked_hours_' + prefix + '_' + selectedDateKey;
+            const bookedHours = JSON.parse(localStorage.getItem(storageKey) || '[]');
+
+            for (let i = startHour; i < endHour; i++) {
+                bookedHours.push(i);
+            }
+            localStorage.setItem(storageKey, JSON.stringify(bookedHours));
+
+            const card = document.querySelector(`#name-${prefix}`).closest('.stadium-card');
+            const pricePerHour = parseInt(card.getAttribute('data-price'));
+            const totalPrice = (endHour - startHour) * pricePerHour;
+            const randomPart = Math.random().toString(36).substring(2, 7).toUpperCase();
+            const bookingCode = `#${prefix}-${randomPart}`;
+
+            // حفظ الحجز في القائمة الخاصة بلوحة التحكم
+            const masterListKey = 'all_master_bookings';
+            let masterBookings = JSON.parse(localStorage.getItem(masterListKey) || '[]');
+            masterBookings.push({
+                stadium: stadiumName,
+                name: nameInput.value,
+                phone: phoneInput.value,
+                day: selectedDayText,
+                time: `من ${getLabel(startHour)} إلى ${getLabel(endHour)}`,
+                price: totalPrice,
+                code: bookingCode
+            });
+            localStorage.setItem(masterListKey, JSON.stringify(masterBookings));
+
+            document.getElementById('modalDetails').innerHTML = `
+                🏟️ الملعب: <b>${stadiumName}</b><br>
+                👤 الاسم: <b>${nameInput.value}</b><br>
+                📱 الموبايل: <b>${phoneInput.value}</b><br>
+                📅 اليوم: <b>${selectedDayText}</b><br>
+                🕒 الفترة: من <b>${getLabel(startHour)}</b> إلى <b>${getLabel(endHour)}</b><br>
+                💰 الإجمالي: <b>${totalPrice} جنيه (كاش)</b>
+            `;
+
+            document.getElementById('codeDisplay').innerText = bookingCode;
+            document.getElementById('codeModal').style.display = 'flex';
+        }
+
+        function closeBookingModal() {
+            document.getElementById('codeModal').style.display = 'none';
+            location.reload();
+        }
+    </script>
+</body>
+</html>
